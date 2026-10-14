@@ -2,6 +2,8 @@ from sqladmin import Admin, ModelView
 
 from libs.models import AdminUser
 
+from .auth import AdminAuth
+
 
 class AdminUserAdmin(ModelView, model=AdminUser):
     column_list = [AdminUser.id, AdminUser.email, AdminUser.is_active, AdminUser.is_superuser]
@@ -10,6 +12,5 @@ class AdminUserAdmin(ModelView, model=AdminUser):
 
 
 def init_admin(api, engine):
-    # admin = Admin(app=api, engine=engine, authentication_backend=AdminAuth("sqladmin_secret"))
-    admin = Admin(app=api, engine=engine)
+    admin = Admin(app=api, engine=engine, authentication_backend=AdminAuth("sqladmin_secret"))
     admin.add_view(AdminUserAdmin)
