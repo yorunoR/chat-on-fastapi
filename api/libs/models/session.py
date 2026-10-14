@@ -1,9 +1,14 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
 from .timestamp_mixin import TimestampMixin
 from .user import User
+
+if TYPE_CHECKING:
+    from .message import Message
 
 
 class Session(Base, TimestampMixin):
@@ -17,3 +22,5 @@ class Session(Base, TimestampMixin):
 
     label: Mapped[str] = mapped_column(String(256), nullable=False)
     uid: Mapped[str] = mapped_column(String(128), unique=True, nullable=False)
+
+    messages: Mapped[list["Message"]] = relationship(back_populates="session", passive_deletes="all")
