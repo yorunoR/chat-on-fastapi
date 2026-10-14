@@ -1,1 +1,14 @@
 __pycache__/
+*.pyc
+
+# virtualenv
+.venv/
+venv/
+
+# tools
+.ruff_cache/
+
+# env
+.env
+.env.*
+!.env.example
