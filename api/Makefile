@@ -1,5 +1,5 @@
 run:
-	uv run uvicorn config.main:api --host 0.0.0.0 --port 5000 --reload
+	uv run uvicorn interfaces.main:api --host 0.0.0.0 --port 5000 --reload
 
 fmt:
 	uv run ruff format
