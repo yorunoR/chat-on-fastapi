@@ -18,5 +18,22 @@ services:
     tty: true
     stdin_open: true
 
+  api:
+    <<: *app
+    build:
+      context: .
+      dockerfile: containers/api/local/Dockerfile
+    working_dir: /api
+    volumes:
+      - ./api:/api
+    env_file: .env.api.local
+    command: /bin/bash -c "
+      uv sync;
+      uv run uvicorn config.main:api --host 0.0.0.0 --port 5000 --reload"
+    ports:
+      - "5000:5000"
+    tty: true
+    stdin_open: true
+
 networks:
   network:
