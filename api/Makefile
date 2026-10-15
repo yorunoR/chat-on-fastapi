@@ -34,3 +34,6 @@ shell:
 
 adminuser:
 	uv run scripts/create_admin_user.py
+
+ws-normal-chat:
+	uv run scripts/ws_normal_chat.py ${token} ${text}

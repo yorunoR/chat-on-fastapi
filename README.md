@@ -1,1 +1,45 @@
 # chat-on-fastapi
+
+LLM を使った回答サービス。
+
+## 構成
+
+| パス | 内容 |
+|---|---|
+| `api/` | FastAPI の API サーバー。詳しくは [api/README.md](api/README.md) |
+| `containers/` | 各コンテナの Dockerfile |
+| `db/init/` | PostgreSQL コンテナの初期化スクリプト(ユーザーと DB の作成) |
+| `compose.yaml` | 開発環境の定義 |
+| `AGENTS.md` | AI エージェント向けの作業ルール(`CLAUDE.md` から参照) |
+
+コンテナ:
+
+- `ai`: Claude Code / Codex を動かす作業用コンテナ
+- `api`: API サーバー(port 5000)
+- `db`: PostgreSQL(port 5432)
+
+## セットアップ
+
+```sh
+cp .env.ai.local.sample .env.ai.local
+cp .env.api.local.sample .env.api.local
+# 各ファイルの値を埋める
+
+make build
+make up
+```
+
+初回はマイグレーションを適用する。
+
+```sh
+docker compose exec api make migrate
+```
+
+## よく使うコマンド
+
+| コマンド | 内容 |
+|---|---|
+| `make up` / `make stop` / `make down` | コンテナの起動 / 停止 / 削除 |
+| `make b` | ai コンテナに入る |
+| `make cl` | ai コンテナで Claude Code を起動 |
+| `make cx` | ai コンテナで Codex を起動 |

@@ -7,11 +7,12 @@ requires-python = ">=3.12"
 dependencies = [
     "alembic>=1.20.0",
     "asyncpg>=0.32.0",
-    "fastapi>=0.143.1",
+    "fastapi>=0.142.3",
     "itsdangerous>=2.2.0",
+    "loguru>=0.7.3",
     "passlib[bcrypt]>=1.7.4",
     "psycopg2-binary>=2.9.13",
-    "pydantic>=2.14.1",
+    "pydantic>=2.13.0",
     "sqladmin>=0.32.0",
     "sqlalchemy[asyncio]>=2.1.4",
     "uvicorn[standard]>=0.54.0",
@@ -19,5 +20,13 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "ruff>=0.17.0",
+    "ruff>=0.16.10",
 ]
+
+# サプライチェーン攻撃対策
+[tool.uv]
+exclude-newer = "P1W"
+[[tool.uv.index]]
+name = "takumi-guard"
+url = "https://pypi.flatt.tech/simple/"
+default = true

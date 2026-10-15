@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 
 from admin.setup import init_admin
-from db.database import db_engine
 from interfaces.middleware import setup_middleware
 from interfaces.urls import api_router
+from libs.database import db_engine
 
 
 def create_api() -> FastAPI:
