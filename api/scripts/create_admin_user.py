@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 
-from db.database import db_session
+from libs.database import db_session
 from libs.models import AdminUser
 
 pwd = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")

@@ -7,7 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from config.settings import ENV
-from db.database import get_db
+from libs.database import get_db
 from libs.models.user import User
 
 
