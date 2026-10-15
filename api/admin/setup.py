@@ -1,5 +1,6 @@
 from sqladmin import Admin, ModelView
 
+from config.settings import ADMIN_SESSION_SECRET
 from libs.models import AdminUser, User
 
 from .auth import AdminAuth
@@ -16,6 +17,6 @@ class UserAdmin(ModelView, model=User):
 
 
 def init_admin(api, engine):
-    admin = Admin(app=api, engine=engine, authentication_backend=AdminAuth("sqladmin_secret"))
+    admin = Admin(app=api, engine=engine, authentication_backend=AdminAuth(ADMIN_SESSION_SECRET))
     admin.add_view(AdminUserAdmin)
     admin.add_view(UserAdmin)

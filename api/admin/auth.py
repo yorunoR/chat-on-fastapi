@@ -1,5 +1,3 @@
-import os
-
 from fastapi import HTTPException, Request, status
 from passlib.context import CryptContext  # type: ignore[import-untyped]
 from sqladmin.authentication import AuthenticationBackend
@@ -7,8 +5,6 @@ from sqlalchemy import select
 
 from db.database import get_db
 from libs.models import AdminUser
-
-ADMIN_SESSION_SECRET = os.getenv("ADMIN_SESSION_SECRET", "sqladmin_secret")
 
 pwd_ctx = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
