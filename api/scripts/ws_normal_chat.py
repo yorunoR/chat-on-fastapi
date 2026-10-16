@@ -5,8 +5,8 @@ import websockets
 from loguru import logger
 
 
-async def main(token: str, text: str) -> None:
-    url = f"ws://localhost:5000/ws/normal_chat?token={token}"
+async def main(session_uid: str, text: str) -> None:
+    url = f"ws://localhost:5000/ws/normal_chat/{session_uid}"
     async with websockets.connect(url) as ws:
         await ws.send(text)
         async for message in ws:

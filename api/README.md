@@ -36,5 +36,5 @@ FastAPI による LLM 回答サービスの API サーバー。
 | `make rollback-one` | 1 つ前に戻す |
 | `make show` | マイグレーションの履歴と現在のリビジョン |
 | `make adminuser` | 管理画面のユーザー作成 |
-| `make ws-normal-chat token=xxx text=xxx` | normal_chat の WebSocket 動作確認 |
+| `make ws-normal-chat uid=xxx text=xxx` | normal_chat の WebSocket 動作確認 |
 | `make chat-session token=xxx uid=xxx initial_message=xxx` | chat_session 作成 API の動作確認 |

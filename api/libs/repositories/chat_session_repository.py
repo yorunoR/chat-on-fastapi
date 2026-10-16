@@ -14,6 +14,11 @@ async def create_chat_session(user: User, uid: str, label: str, initial_message:
     return chat_session
 
 
+async def get_chat_session_by_uid(uid: str) -> ChatSession | None:
+    async with AsyncSessionLocal() as db:
+        return await db.scalar(select(ChatSession).where(ChatSession.uid == uid))
+
+
 async def get_history(chat_session: ChatSession) -> list[dict[str, str]]:
     async with AsyncSessionLocal() as db:
         messages = await db.scalars(select(Message).where(Message.chat_session_id == chat_session.id).order_by(Message.id))
