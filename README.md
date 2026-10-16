@@ -24,6 +24,8 @@ LLM を使った回答サービス。
 cp .env.ai.local.sample .env.ai.local
 cp .env.api.local.sample .env.api.local
 # 各ファイルの値を埋める
+#   .env.ai.local:  ANTHROPIC_API_KEY(Claude Code 用)
+#   .env.api.local: OPENAI_API_KEY(回答の生成に使う)。ほかの環境変数はファイル内のコメントを参照
 
 make build
 make up
@@ -34,6 +36,8 @@ make up
 ```sh
 docker compose exec api make migrate
 ```
+
+ここから最初の会話までの手順は [api/README.md](api/README.md) の「最初の会話まで」を参照。
 
 ## よく使うコマンド
 

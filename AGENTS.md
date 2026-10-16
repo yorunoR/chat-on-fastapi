@@ -13,7 +13,7 @@ AI エージェント向けの作業ルール。設計の説明は各ドキュ�
 
 - 作業前に `api/docs/` のドキュメントを番号順に読み、構成に従う
   - @api/docs/01_構成.md
-- 新しい回答アプリは `apps/<app_name>/` に、`controller.py`・`flows/`・`nodes/`・`prompts/` の構成で作る
+- 新しい回答アプリは `apps/<app_name>/` に、`<app_name>_controller.py`・`flows/`・`nodes/`・`prompt_templates.yaml` の構成で作る
 - コードを変更したら `api/` で `make fmt` と `make lint` を実行し、エラーがない状態にする
 - マイグレーションは `make migrations msg=xxx` で自動生成する。手で書かない
 - 依存パッケージは `uv add` で追加する(`pyproject.toml` を直接編集しない)
