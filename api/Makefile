@@ -37,3 +37,6 @@ adminuser:
 
 ws-normal-chat:
 	uv run scripts/ws_normal_chat.py ${token} ${text}
+
+chat-session:
+	uv run scripts/http_create_chat_session.py ${token} ${uid} ${initial_message}
