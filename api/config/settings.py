@@ -8,3 +8,5 @@ DB_NAME = os.environ.get("DB_NAME", "api_dev")
 
 ENV = os.environ.get("ENV", "local")
 ADMIN_SESSION_SECRET = os.environ.get("ADMIN_SESSION_SECRET", "sqladmin_secret")
+
+SAVE_PROMPT_TEMPLATE = os.environ.get("SAVE_PROMPT_TEMPLATE", "false").lower() == "true"
