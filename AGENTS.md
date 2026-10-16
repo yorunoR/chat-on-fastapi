@@ -17,6 +17,11 @@ AI エージェント向けの作業ルール。設計の説明は各ドキュ�
 - コードを変更したら `api/` で `make fmt` と `make lint` を実行し、エラーがない状態にする
 - マイグレーションは `make migrations msg=xxx` で自動生成する。手で書かない
 - 依存パッケージは `uv add` で追加する(`pyproject.toml` を直接編集しない)
+- プロジェクト内のモジュールは、関数・クラスを直接 import する
+  - 良い例: `from libs.repositories.chat_session_repository import create_chat_session`
+  - 悪い例: `from libs.repositories import chat_session as chat_session_repository`(モジュールの import、`as` による別名)
+  - 名前が衝突したら、`as` を使わずに呼び出し側の関数名を変える
+  - 例外: `interfaces/urls.py` のルーター登録は、各モジュールの `router` が同名になるためモジュール単位で import する
 
 ## ドキュメント
 
