@@ -1,4 +1,5 @@
 import asyncio
+import json
 import sys
 
 import websockets
@@ -11,6 +12,9 @@ async def main(session_uid: str, text: str) -> None:
         await ws.send(text)
         async for message in ws:
             logger.info(message)
+            # stop は回答ごとの終わり。done ですべて終わるので接続を閉じる
+            if json.loads(message).get("done"):
+                break
 
 
 if __name__ == "__main__":
