@@ -17,8 +17,9 @@ async def normal_chat(websocket: WebSocket, session_uid: str) -> None:
     if chat_session is None:
         raise WebSocketException(code=status.WS_1008_POLICY_VIOLATION)
     await websocket.accept()
+    timeout = asyncio.timeout(WS_TIMEOUT_SECONDS)
     try:
-        async with asyncio.timeout(WS_TIMEOUT_SECONDS):
+        async with timeout:
             text = await websocket.receive_text()
             await run_normal_chat(websocket, chat_session, text)
             # 接続を閉じるのはクライアントの責務。閉じられるまで待つ
@@ -27,6 +28,11 @@ async def normal_chat(websocket: WebSocket, session_uid: str) -> None:
     except WebSocketDisconnect:
         pass
     except TimeoutError:
+        # 内側の処理(DB 接続など)が出した TimeoutError は、接続のタイムアウトではなくエラーとして扱う
+        if not timeout.expired():
+            logger.exception("normal_chat failed")
+            await websocket.close(code=status.WS_1011_INTERNAL_ERROR)
+            return
         await websocket.close(code=status.WS_1000_NORMAL_CLOSURE, reason="timeout")
     except Exception:
         logger.exception("normal_chat failed")
