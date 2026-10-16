@@ -2,7 +2,6 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables import RunnablePassthrough
 
 from libs.external.llm.llm_client import LLMClient
-from libs.repositories.chat_session_repository import get_history
 
 
 class LLMAgent:
@@ -14,16 +13,15 @@ class LLMAgent:
             tools = []
         self.tools = tools
 
-    async def chain(self, *, chat_session=None, history=None, model_name=None, structured_model=None, metadata, **kwargs):
+    def chain(self, *, chat_session=None, history=None, model_name=None, structured_model=None, metadata, **kwargs):
+        """history は呼び出し側(ノード)が用意して渡す。chat_session はトレース用の metadata にだけ使う"""
         model_name = model_name or self.model_name
+        if history is None:
+            history = []
 
         if chat_session is not None:
-            client = self.__create_llm_client_with_chat_session(
-                chat_session=chat_session, model_name=model_name, metadata=metadata, **kwargs
-            )
-            history = await get_history(chat_session)
-        else:
-            client = LLMClient(model_name=model_name, model_kwargs={"metadata": metadata}, **kwargs)
+            metadata = self.__add_chat_session_metadata(metadata=metadata, chat_session=chat_session)
+        client = LLMClient(model_name=model_name, model_kwargs={"metadata": metadata}, **kwargs)
 
         assigns = RunnablePassthrough.assign(history=lambda _inputs: history)
 
@@ -46,7 +44,6 @@ class LLMAgent:
 
         return assigns | qa_prompt | llm
 
-    def __create_llm_client_with_chat_session(self, *, chat_session, model_name, metadata, **kwargs):
-        metadata["session_id"] = chat_session.uid
-        metadata["trace_user_id"] = chat_session.user_id
-        return LLMClient(model_name=model_name, model_kwargs={"metadata": metadata}, **kwargs)
+    def __add_chat_session_metadata(self, *, metadata, chat_session):
+        # 呼び出し側の dict を書き換えないよう、コピーして足す
+        return {**metadata, "session_id": chat_session.uid, "trace_user_id": chat_session.user_id}

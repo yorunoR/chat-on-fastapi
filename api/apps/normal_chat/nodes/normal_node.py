@@ -21,7 +21,8 @@ class NormalNode:
         )
 
     async def run(self) -> None:
-        chain = await self.agent.chain(chat_session=self.chat_session, metadata={"agent": self.agent.label})
+        history = await get_history(self.chat_session)
+        chain = self.agent.chain(chat_session=self.chat_session, history=history, metadata={"agent": self.agent.label})
         self.flow_data.last_agent_label = self.agent.label
         astream = (chunk.text async for chunk in chain.astream({"input": self.flow_data.prompt}))
         sender = ContentStreamSender(self.ws, self.agent.label)
