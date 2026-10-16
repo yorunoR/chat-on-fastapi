@@ -7,8 +7,8 @@ from .base import Base
 from .timestamp_mixin import TimestampMixin
 
 if TYPE_CHECKING:
+    from .chat_session import ChatSession
     from .message import Message
-    from .session import Session
 
 
 class User(Base, TimestampMixin):
@@ -17,5 +17,5 @@ class User(Base, TimestampMixin):
     email: Mapped[str] = mapped_column(String(256), unique=True, nullable=False)
     uid: Mapped[str] = mapped_column(String(256), unique=True, nullable=True)
 
-    sessions: Mapped[list["Session"]] = relationship(back_populates="user", passive_deletes="all")
+    chat_sessions: Mapped[list["ChatSession"]] = relationship(back_populates="user", passive_deletes="all")
     messages: Mapped[list["Message"]] = relationship(back_populates="user", passive_deletes="all")
