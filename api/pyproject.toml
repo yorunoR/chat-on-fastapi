@@ -1,0 +1,36 @@
+[project]
+name = "api"
+version = "0.1.0"
+description = "FastAPI による LLM 回答サービスの API サーバー"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "alembic>=1.20.0",
+    "asyncpg>=0.32.0",
+    "fastapi>=0.142.3",
+    "itsdangerous>=2.2.0",
+    "langchain>=1.4.3",
+    "langchain-openai>=1.6.7",
+    "langgraph>=1.2.14",
+    "loguru>=0.7.3",
+    "passlib[bcrypt]>=1.7.4",
+    "psycopg2-binary>=2.9.13",
+    "pydantic>=2.13.0",
+    "pyyaml>=6.0.3",
+    "sqladmin>=0.32.0",
+    "sqlalchemy[asyncio]>=2.1.4",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.10",
+]
+
+# サプライチェーン攻撃対策
+[tool.uv]
+exclude-newer = "P1W"
+[[tool.uv.index]]
+name = "takumi-guard"
+url = "https://pypi.flatt.tech/simple/"
+default = true
