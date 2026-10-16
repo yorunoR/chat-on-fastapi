@@ -9,6 +9,7 @@ DB_NAME = os.environ.get("DB_NAME", "api_dev")
 ENV = os.environ.get("ENV", "local")
 ADMIN_SESSION_SECRET = os.environ.get("ADMIN_SESSION_SECRET", "sqladmin_secret")
 
+# プロンプトを DB に保存するか。ローカル開発用(同期の DB アクセスになるため、本番では有効にしない)
 SAVE_PROMPT_TEMPLATE = os.environ.get("SAVE_PROMPT_TEMPLATE", "false").lower() == "true"
 
 # WebSocket の接続を開いておける最大時間(秒)。過ぎたらサーバーから閉じる

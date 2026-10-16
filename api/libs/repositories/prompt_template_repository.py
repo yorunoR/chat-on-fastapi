@@ -1,30 +1,15 @@
 import hashlib
 import json
-from pathlib import Path
 from typing import Any
 
-import yaml
 from sqlalchemy import select
 
-from config.settings import SAVE_PROMPT_TEMPLATE
 from libs.database import db_session
 from libs.models import PromptTemplate
 
-prompt_template_store: dict[str, Any] = {}
-
-
-def set_store(filename: str | Path) -> None:
-    with open(filename) as yml:
-        prompt_template_store.update(yaml.safe_load(yml))
-
-
-def get_template(flow_name: str, node_name: str, agent_name: str) -> dict[str, Any]:
-    flow = prompt_template_store[flow_name]
-    node = flow[node_name]
-    return node[agent_name]
-
 
 def get_or_create_prompt_template(flow_name: str, node_name: str, agent_name: str, template: dict[str, Any]) -> PromptTemplate:
+    """SAVE_PROMPT_TEMPLATE が有効なとき(ローカル開発用)だけ呼ばれるため、同期のセッションで開く"""
     hexdigest = dict_checksum(template)
     with db_session() as db:
         prompt_template = db.scalar(
@@ -43,14 +28,6 @@ def get_or_create_prompt_template(flow_name: str, node_name: str, agent_name: st
             db.commit()
             db.refresh(prompt_template)
     return prompt_template
-
-
-def get_prompt_template(flow_name: str, node_name: str, agent_name: str) -> PromptTemplate:
-    template = get_template(flow_name, node_name, agent_name)
-    if SAVE_PROMPT_TEMPLATE:
-        return get_or_create_prompt_template(flow_name, node_name, agent_name, template)
-    else:
-        return PromptTemplate(template=template)
 
 
 def dict_checksum(d: dict[Any, Any], algorithm: str = "sha256", ensure_ascii: bool = True) -> str:

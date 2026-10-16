@@ -10,8 +10,8 @@ from pydantic import BaseModel
 from apps.normal_chat.flows.flow_data import FlowData
 from apps.normal_chat.nodes.normal_node import NormalNode
 from libs.models.chat_session import ChatSession
+from libs.prompts.prompt_template_store import get_prompt_template, set_store
 from libs.repositories.chat_session_repository import append_qa_to_session
-from libs.repositories.prompt_template_repository import get_prompt_template, set_store
 
 FLOW_NAME = "normal_chat_flow"
 
