@@ -1,6 +1,7 @@
 from loguru import logger
 
-from apps.normal_chat.flows.normal_chat_flow import FlowData, NormalChatFlow
+from apps.normal_chat.flows.flow_data import FlowData
+from apps.normal_chat.flows.normal_chat_flow import NormalChatFlow
 from libs.models.chat_session import ChatSession
 from libs.tasks.background_task import run_in_background
 from libs.websocket.sender import send_done

@@ -5,8 +5,9 @@ from typing import Annotated, Any
 
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
+from apps.normal_chat.flows.flow_data import FlowData
 from apps.normal_chat.nodes.normal_node import NormalNode
 from libs.models.chat_session import ChatSession
 from libs.repositories.chat_session_repository import append_qa_to_session
@@ -23,12 +24,6 @@ class Node(StrEnum):
 
 class State(BaseModel):
     history: Annotated[list[Node], operator.add]
-
-
-class FlowData(BaseModel):
-    prompt: str = Field(...)
-    content: str = Field(default="")
-    last_agent_label: str = Field(default="")
 
 
 class NormalChatFlow:

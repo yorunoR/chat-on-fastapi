@@ -1,17 +1,16 @@
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
+from apps.normal_chat.flows.flow_data import FlowData
 from libs.agents.llm_agent import LLMAgent
 from libs.models.chat_session import ChatSession
+from libs.repositories.chat_session_repository import get_history
 from libs.websocket.sender import ContentStreamSender
-
-if TYPE_CHECKING:
-    from apps.normal_chat.flows.normal_chat_flow import FlowData
 
 
 class NormalNode:
     """会話履歴を踏まえて、日常会話として回答する"""
 
-    def __init__(self, *, ws, chat_session: ChatSession, flow_data: "FlowData", agent_template: dict[str, Any]) -> None:
+    def __init__(self, *, ws, chat_session: ChatSession, flow_data: FlowData, agent_template: dict[str, Any]) -> None:
         self.ws = ws
         self.chat_session = chat_session
         self.flow_data = flow_data
