@@ -57,6 +57,27 @@ services:
     depends_on:
       - db
 
+  web:
+    <<: *app
+    build:
+      context: .
+      dockerfile: containers/web/local/Dockerfile
+    working_dir: /web
+    volumes:
+      - ./web:/web
+    environment:
+      # コンテナはホストの UID で動き、passwd にユーザーがないため、HOME を明示する(pnpm のストア用)
+      HOME: /web
+    command: /bin/bash -c "
+      pnpm install;
+      pnpm dev"
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
+    depends_on:
+      - api
+
 volumes:
   postgres:
 
