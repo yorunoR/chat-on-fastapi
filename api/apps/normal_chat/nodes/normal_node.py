@@ -24,10 +24,9 @@ class NormalNode:
         history = await get_history(self.chat_session)
         chain = self.agent.chain(chat_session=self.chat_session, history=history, metadata={"agent": self.agent.label})
         self.flow_data.last_agent_label = self.agent.label
-        astream = (chunk.text async for chunk in chain.astream({"input": self.flow_data.prompt}))
         sender = ContentStreamSender(self.ws, self.agent.label)
         try:
-            await sender.send(astream)
+            await sender.send(chain.astream({"input": self.flow_data.prompt}))
         finally:
             # 途中で切断されても flow がそこまでの回答を保存できるよう、FlowData に移す
             self.flow_data.content = sender.content

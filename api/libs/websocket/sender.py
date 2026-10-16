@@ -3,6 +3,8 @@ import json
 from collections.abc import AsyncIterator, Callable
 from typing import Any
 
+from langchain_core.messages import BaseMessageChunk
+
 # 回答をまとめて送るチャンク数。1 チャンクずつ送ると送信回数が多くなりすぎる
 CHUNKS_PER_MESSAGE = 3
 
@@ -33,10 +35,12 @@ class ContentStreamSender:
         self.content = ""
         self.cancel = False
 
-    async def send(self, astream: AsyncIterator[str]) -> None:
+    async def send(self, astream: AsyncIterator[BaseMessageChunk]) -> None:
+        """astream は chain.astream() をそのまま渡す"""
         pending_content = ""
         pending_count = 0
-        async for content in astream:
+        async for chunk in astream:
+            content = chunk.text
             self.content += content
             pending_content += content
             pending_count += 1
