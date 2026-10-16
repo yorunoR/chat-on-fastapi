@@ -13,3 +13,6 @@ SAVE_PROMPT_TEMPLATE = os.environ.get("SAVE_PROMPT_TEMPLATE", "false").lower() =
 
 # WebSocket の接続を開いておける最大時間(秒)。過ぎたらサーバーから閉じる
 WS_TIMEOUT_SECONDS = float(os.environ.get("WS_TIMEOUT_SECONDS", "300"))
+
+# 終了時に後処理(バックグラウンドタスク)の完了を待つ最大時間(秒)。過ぎたらキャンセルする
+BACKGROUND_TASK_SHUTDOWN_TIMEOUT_SECONDS = float(os.environ.get("BACKGROUND_TASK_SHUTDOWN_TIMEOUT_SECONDS", "30"))
