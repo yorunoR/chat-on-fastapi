@@ -1,10 +1,8 @@
 from fastapi import HTTPException, Request, status
 from passlib.context import CryptContext  # type: ignore[import-untyped]
 from sqladmin.authentication import AuthenticationBackend
-from sqlalchemy import select
 
-from libs.database import get_db
-from libs.models import AdminUser
+from libs.repositories.admin_user_repository import get_admin_user_by_email
 
 pwd_ctx = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
@@ -25,10 +23,7 @@ class AdminAuth(AuthenticationBackend):
         email = (form.get("username") or "").lower().strip()
         password = form.get("password") or ""
 
-        async for db in get_db():
-            stmt = select(AdminUser).where(AdminUser.email == email)
-            admin_user = await db.scalar(stmt)
-
+        admin_user = await get_admin_user_by_email(email)
         if admin_user and pwd_ctx.verify(password, admin_user.hashed_password):
             request.session.update({"user": email})
             return True

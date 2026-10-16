@@ -1,8 +1,5 @@
-from collections.abc import AsyncGenerator
-
 from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import (
-    AsyncSession,
     async_sessionmaker,
     create_async_engine,
 )
@@ -26,8 +23,3 @@ AsyncSessionLocal = async_sessionmaker(
 
 sync_db_engine = create_engine(SYNC_DB_URL, echo=False)
 db_session = sessionmaker(autocommit=False, autoflush=False, bind=sync_db_engine)
-
-
-async def get_db() -> AsyncGenerator[AsyncSession]:
-    async with AsyncSessionLocal() as session:
-        yield session

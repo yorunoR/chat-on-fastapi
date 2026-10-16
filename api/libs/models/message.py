@@ -2,7 +2,7 @@ from sqlalchemy import ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
-from .session import Session
+from .chat_session import ChatSession
 from .timestamp_mixin import TimestampMixin
 from .user import User
 
@@ -15,11 +15,11 @@ class Message(Base, TimestampMixin):
         nullable=False,
     )
     user: Mapped["User"] = relationship(back_populates="messages")
-    session_id: Mapped[int] = mapped_column(
-        ForeignKey("sessions.id", ondelete="CASCADE"),
+    chat_session_id: Mapped[int] = mapped_column(
+        ForeignKey("chat_sessions.id", ondelete="CASCADE"),
         nullable=False,
     )
-    session: Mapped["Session"] = relationship(back_populates="messages")
+    chat_session: Mapped["ChatSession"] = relationship(back_populates="messages")
 
     question: Mapped[str] = mapped_column(Text, nullable=True)
     answer: Mapped[str] = mapped_column(Text, nullable=False)
