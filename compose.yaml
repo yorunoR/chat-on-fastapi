@@ -12,6 +12,8 @@ services:
     working_dir: /ai
     volumes:
       - .:/ai
+      - /dev/null:/ai/.env.ai.local:ro
+      - /dev/null:/ai/.env.api.local:ro
     env_file: .env.ai.local
     command: /bin/bash -c "
       bash"
