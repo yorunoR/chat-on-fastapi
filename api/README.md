@@ -29,6 +29,7 @@ FastAPI による LLM 回答サービスの API サーバー。
 
 - サーバーは `make up` で `api` コンテナが起動すると自動で立ち上がる(コードの変更も自動で反映される)
 - 動作確認のスクリプト(`make chat-session`・`make ws-normal-chat`)は `localhost:5000` に接続するため、`api` コンテナで実行する
+- `make routes`・`make adminuser` はプロジェクトのモジュールを import するため、`PYTHONPATH=.` が設定されている `api` コンテナで実行する
 - `make fmt`・`make lint`・マイグレーションは、`ai` コンテナの `/ai/api` で実行してもよい
 
 ## 最初の会話まで
@@ -71,6 +72,7 @@ FastAPI による LLM 回答サービスの API サーバー。
 | `make rollback-all` | すべて戻す |
 | `make show` | マイグレーションの履歴と現在のリビジョン |
 | `make shell` | `shell.py` を実行する(`shell.py` は作成予定。まだ使えない) |
+| `make routes` | 登録されているパスの一覧(WebSocket も含む) |
 | `make adminuser` | 管理画面のユーザー作成 |
 | `make chat-session user_uid=xxx session_uid=xxx initial_message=xxx` | chat_session 作成 API の動作確認(`initial_message` は省略可) |
 | `make ws-normal-chat session_uid=xxx text=xxx` | normal_chat の WebSocket 動作確認 |
