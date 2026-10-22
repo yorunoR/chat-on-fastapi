@@ -21,7 +21,12 @@ AI エージェント向けの作業ルール。設計の説明は各ドキュ�
   - 良い例: `from libs.repositories.chat_session_repository import create_chat_session`
   - 悪い例: `from libs.repositories import chat_session as chat_session_repository`(モジュールの import、`as` による別名)
   - 名前が衝突したら、`as` を使わずに呼び出し側の関数名を変える
-  - 例外: `interfaces/urls.py` のルーター登録は、各モジュールの `router` が同名になるためモジュール単位で import する
+
+## コメント
+
+- コメントを詳しく書くより、変数名・関数名をわかりやすくすることを優先する
+- ひと目でわかるコードにはコメントを書かない(コードをなぞるだけの docstring・コメントも書かない)
+- コメントを書くのは、コードから読み取れない理由(なぜそうしているか、意図的な例外など)だけにする
 
 ## ドキュメント
 

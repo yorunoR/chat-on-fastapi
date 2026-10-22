@@ -32,6 +32,9 @@ rollback-one:
 shell:
 	uv run shell.py
 
+routes:
+	uv run scripts/show_routes.py
+
 adminuser:
 	uv run scripts/create_admin_user.py
 
