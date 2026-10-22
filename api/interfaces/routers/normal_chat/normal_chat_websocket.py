@@ -1,14 +1,18 @@
 import asyncio
 
-from fastapi import WebSocket, WebSocketDisconnect, WebSocketException, status
+from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect, WebSocketException, status
 from loguru import logger
 
 from apps.normal_chat.normal_chat_controller import run_normal_chat
 from config.settings import WS_TIMEOUT_SECONDS
-from interfaces.handlers.websocket_closer import close_websocket
+from interfaces.dependencies.websocket import track_connection
+from interfaces.routers.websocket_closer import close_websocket
 from libs.repositories.chat_session_repository import get_chat_session_by_uid
 
+normal_chat_websocket_router = APIRouter()
 
+
+@normal_chat_websocket_router.websocket("/ws/normal_chat/{session_uid}", dependencies=[Depends(track_connection)])
 async def normal_chat_websocket(websocket: WebSocket, session_uid: str) -> None:
     chat_session = await get_chat_session_by_uid(session_uid)
     if chat_session is None:
